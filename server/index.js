@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const CryptoJS = require("crypto-js");
 const JWT = require("jsonwebtoken");
-const { body } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 const User = require("./src/v1/models/user");
 
 const app = express();
@@ -32,6 +32,20 @@ app.post(
   body("confirmPassword")
     .isLength({ min: 8 })
     .withMessage("確認用パスワードは8文字以上で入力してください"),
+  body("username").custom(async (value) => {
+    const user = await User.findOne( { username: value } );
+    if ( user ) {
+      return Promise.reject( "ユーザー名は既に存在します" );
+    }
+  }),
+  (req, res, next) => {
+    // バリデーションに引っかかった場合はエラーを返す
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
 async (req, res) => {
   const password = req.body.password;
 
