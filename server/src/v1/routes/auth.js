@@ -7,6 +7,7 @@ const userController = require("../controllers/user")
 
 require('dotenv').config();
 
+// 新規登録
 router.post(
   "/register",
   body("username")
@@ -28,6 +29,7 @@ router.post(
   userController.register,
 );
 
+// ログイン
 router.post(
   "/login",
   body("username")
@@ -39,5 +41,7 @@ router.post(
   validation.validate,
   userController.login,
 )
+
+// JWT認証
 
 module.exports = router;
