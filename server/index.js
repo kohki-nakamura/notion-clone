@@ -8,6 +8,8 @@ const app = express();
 const PORT = 3000;
 require('dotenv').config();
 
+app.use(express.json()); // EXPRESSにJSONオブジェクトを認識させる
+
 // DB接続
 try {
   mongoose.set("strictQuery", false);
