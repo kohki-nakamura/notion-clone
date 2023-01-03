@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 require('dotenv').config();
 
 app.use(express.json()); // EXPRESSにJSONオブジェクトを認識させる
